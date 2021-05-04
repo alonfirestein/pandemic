@@ -7,7 +7,7 @@
 “To practice dealing with global epidemics, we need games” (Bill Gates, 2015).  
 One of the games created to practice dealing with epidemics is Pandemic. This is a board game for 2 to 4 players, playing together to cure diseases and discover medicines.  
   
-In this task some of the rules of the game are implemented, for only one player.  
+In this repository some of the rules of the game are implemented, for only one player.  
   
   
 ## The Board  
