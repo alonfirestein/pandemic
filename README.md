@@ -41,13 +41,13 @@ The player starts the game in one of the cities, and receives a number of cards.
   
 4.) Shuttle flight - `fly_shuttle` - If there is a research station in the current city, you can fly to any other city that has a research station.  
   
-5.) Build Reseach Station - `build` - build a research station in the city that is located in it. To do this, throw the appropriate card to the city you are in.     
+5.) Build Reseach Station - `build` - build a research station in the city that is located in it. To do this, throw the appropriate card to the city you are in.   
 	- Each city can have at most one research station. If there is already a research station in the current city, and a "construction" operation is performed again, there is no need to throw an exception, and the card remains in the player's hands.  
-6.) Discover Cure - `discover_cure` - Drug discovery for a disease of a certain color. To do this, you must be in a city that has a research station, and throw 5 colored cards of the disease. The color of the city they are in does not matter.  
+6.) Discover Cure - `discover_cure` - Drug discovery for a disease of a certain color. To do this, you must be in a city that has a research station, and throw 5 colored cards of the disease. The color of the city they are in does not matter. 
 	- Each disease has one cure. If a cure for the disease has already been discovered, and a "cure discovery" for the same disease is performed again, there is no need to discard an exception, and the cards remain in the player's hands.  
   
-7.) Treat Disease- `treat` - Deleting one disease cube from the city you are in (reducing the level of the disease by 1).  
-	- If a cure for the disease has already been discovered in the color of the city, then the action of "cure the disease" removes all the disease cubes from the city that are in it (reducing the level of the disease to 0).  
+7.) Treat Disease- `treat` - Deleting one disease cube from the city you are in (reducing the level of the disease by 1).
+	- If a cure for the disease has already been discovered in the color of the city, then the action of "cure the disease" removes all the disease cubes from the city that are in it (reducing the level of the disease to 0).
 	- If there is no infection at all in the city (the disease level is 0), then the action will throw an abnormality.  
   
   
