@@ -99,12 +99,14 @@ There are different roles of players, who have special skills (the skills are si
   
   
   
-To run the demo files to see how it runs you can run:  
+## Running the game  
+  
+To run the demo/test files to see how it runs you can run:  
 <div dir='ltr'>
 
     make demo1 && ./demo1
     make demo2 && ./demo2
-	make test && ./test
+    make test && ./test
 
 </div>
 
