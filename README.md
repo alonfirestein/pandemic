@@ -1,113 +1,80 @@
-<div dir="rtl" lang="he">
 
-# פאנדמיק - שלב א
-
-"כדי להתאמן בהתמודדות עם מגפות עולמיות, אנחנו צריכים משחקים"
-[(ביל גייטס, 2015)](https://www.ted.com/talks/bill_gates_the_next_outbreak_we_re_not_ready#t-389693).
-אחד המשחקים שנוצרו כדי להתאמן בהתמודדות עם מגפות הוא
-[פאנדמיק](https://www.zmangames.com/en/products/pandemic/).
-זהו משחק לוח ל-2 עד 4 שחקנים, המשחקים במשותף כדי לרפא מחלות ולגלות תרופות.
-
-במטלה זו נממש חלק מחוקי המשחק, עבור שחקן אחד בלבד.
-
-## הלוח
-לוח המשחק הוא מפה של העולם, ובה 48 ערים.
-חלק מהערים מחוברות בקו המאפשר לנסוע ביניהן.
-ניתן לראות את רשימת הערים והקשרים ביניהן
-[בתמונה זו](https://media.wnyc.org/i/1500/900/c/80/1/1537_Pandemic_main.jpg).
-הערים מחולקות לארבעה צבעים - כחול, צהוב, שחור ואדום - 12 ערים מכל צבע.
-
-רשימת הערים, הצבעים והקשרים נמצאת גם בקובץ
-[cities_map.txt](cities_map.txt) - אפשר להשתמש בו לפי שיקול דעתכם (לא חובה).
-הקובץ נשלח ע"י אוריה אלפרין - תודה רבה!
-
-
-במטלה זו, הלוח מיוצג ע"י המחלקה 
-`Board`.
-
-
-## הקלפים
-ישנם 48 קלפים - קלף אחד לכל עיר.
-
-שמות הערים בקוד יהיו בדיוק כמו על המפה, בלי הרווחים. לדוגמה, השם של העיר ניו יורק הוא
-`NewYork`.
-יש להקפיד על האיות על-מנת למנוע שגיאות קומפילציה.
-
-
-## המחלות
-ישנן מחלות מארבעה צבעים - כחול, צהוב, שחור ואדום.
-בכל עיר עשויות להיות "קוביות מחלה" בצבע המתאים לאותה עיר.
-
-במחלקה "לוח" יש לממש את השיטות הבאות (ראו בקבצי הדוגמה):
-
-* אופרטור סוגריים מרובעים [] - מקבל כפרמטר מזהה-עיר, ומאפשר לקרוא ולעדכן את רמת המחלה (=מספר קוביות המחלה) באותה עיר.
-לדוגמה:
-`board[City::HongKong] = 2`
-מציבה שתי קוביות-מחלה אדומות בעיר הונג קונג.
-* אופרטור פלט - מציג את מצב הלוח בפורמט כלשהו לבחירתכם. מצב הלוח כולל את:
-   * רמת המחלה בכל אחת מהערים;
-   * התרופות שהתגלו עד כה (ראו הסבר למטה);
-   * תחנות-מחקר שנבנו עד כה (ראו הסבר למטה).
-* `is_clean` - שיטה בוליאנית ללא פרמטרים,
-המחזירה "אמת" אם ורק אם כל הלוח נקי - אין שום קוביות מחלה.
-* `remove_cures` - שיטה ללא פרמטרים, המסירה מהלוח את כל התרופות שהתגלו עד כה (ראו הסבר למטה). שיטה זו נועדה לצורך כתיבת בדיקות; היא אף פעם לא זורקת חריגה, ואין צורך לבדוק אותה באופן מיוחד.
-
-## השחקן
-השחקן מתחיל את המשחק באחת הערים,
-ומקבל מספר קלפים.
-בכל תור, הוא יכול לבצע אחת מהפעולות הבאות (ראו בקבצי הדוגמה):
-
-1. נסיעה - `drive` - מעבר מהעיר הנוכחית לעיר סמוכה (בהתאם למפת הקשרים).
-1. טיסה ישירה - `fly_direct` - מעבר מהעיר הנוכחית לעיר של קלף כלשהו שנמצא בידו. כדי לבצע פעולה זו יש להשליך את הקלף המתאים לעיר שטסים אליה.
-1. טיסת זכיון - `fly_charter` - מעבר מהעיר הנוכחית לעיר כלשהי. כדי לבצע פעולה זו יש להשליך את הקלף המתאים לעיר *שנמצאים בה*.
-1. טיסת שאטל - `fly_shuttle` - אם בעיר הנוכחית ישנה תחנת-מחקר, אפשר לטוס לכל עיר אחרת שיש בה תחנת-מחקר. 
-1. בנייה - `build` - בניית תחנת-מחקר בעיר שנמצאים בה. כדי לבצע פעולה זו יש להשליך את הקלף המתאים לעיר שנמצאים בה.
-   * בכל עיר יכולה להיות לכל היותר תחנת-מחקר אחת. אם כבר יש תחנת מחקר בעיר הנוכחית, ומבצעים שוב פעולת "בנייה", אין צורך לזרוק חריגה, והקלף נשאר בידי השחקן.
-1. גילוי תרופה - `discover_cure` - גילוי תרופה למחלה בצבע מסויים. כדי לבצע פעולה זו, יש להימצא בעיר שיש בה תחנת-מחקר, ולהשליך 5 קלפים בצבע של המחלה. צבע העיר שנמצאים בה לא משנה.
-   * לכל מחלה יש תרופה אחת. אם כבר התגלתה תרופה למחלה, ומבצעים שוב פעולת "גילוי תרופה" לאותה מחלה, אין צורך לזרוק חריגה, והקלפים נשארים בידי השחקן.
-1. טיפול במחלה - `treat` - הורדת קוביית-מחלה אחת מהעיר שנמצאים בה (הפחתת רמת המחלה ב-1).
-   *  אם כבר התגלתה תרופה למחלה בצבע של העיר, אז פעולת "ריפוי מחלה" מורידה את כל קוביות המחלה מהעיר שנמצאים בה (הפחתת רמת המחלה ל-0).
-   * אם אין בכלל זיהום בעיר (רמת המחלה היא 0), אז הפעולה תזרוק חריגה.
-
-כל פעולה צריכה לעדכן את מצב הלוח ומיקום השחקן בהתאם.
-אם הפעולה לא חוקית, יש לזרוק חריגה מתאימה.
-
-בנוסף, יש לממש את השיטות הבאות:
-
-*  `role` - פונקציה המחזירה את התפקיד של השחקן (ראו רשימת התפקידים למטה), לצורך תצוגה.
-*  `take_card` - לקיחת קלף-עיר כלשהו. פעולה זו מדמה את התהליך שבו השחקן מקבל קלפים מהקופה בתחילת המשחק או במהלכו. 
-   *   יש רק קלף אחד של כל עיר, ולכן אם מבצעים פעולת `take_card` על קלף שכבר נמצא בידי השחקן, לא יהיה כל שינוי במצב השחקן. 
-   * אין צורך לבדוק את התקינות של שיטה זו. בפרט: אין צורך לבדוק שהקלף עדיין בקופה, או שלא נותנים קלף פעמיים, וכד'. השיטה תמיד מצליחה.
-
-הערות:
-
-* יכולים להיות שני שחקנים או יותר באותה עיר - לא קורה שום דבר מיוחד במצב זה.
-
-
-## תפקידים
-
-ישנם תפקידים שונים של שחקנים, שיש להם כישורים מיוחדים (הכישורים דומים אבל לא זהים למשחק המקורי):
-
-1. קצין מבצעים - `OperationsExpert`:יכול לבצע פעולת "בנייה" בכל עיר שהוא נמצא בה, בלי להשליך קלף-עיר מתאים.
-1. קצין תעבורה - `Dispatcher`: כשהוא נמצא בתחנת-מחקר, הוא יכול לבצע פעולת "טיסה ישירה" לכל עיר שהוא רוצה, ללא השלכת קלף-עיר.
-1. מדענית - `Scientist`: יכולה לבצע פעולת "גילוי תרופה" בעזרת `n` קלפים בלבד (במקום 5), כאשר הפרמטר `n` מועבר בבנאי (במשחק המקורי `n=4`).
-1. חוקרת - `Researcher`: יכולה לבצע פעולת "גילוי תרופה" בכל עיר - לא חייבת להיות בתחנת מחקר.
-1. פראמדיק - `Medic`: כשהוא מבצע פעולת "טיפול במחלה", הוא מוריד את כל קוביות-המחלה מהעיר שהוא נמצא בה, ולא רק אחת.
-   * אם כבר התגלתה תרופה למחלה, הוא אוטומטית מוריד את כל קוביות-המחלה מכל עיר שהוא נמצא בה, גם בלי לבצע פעולת "טיפול במחלה".
-1. וירולוגית - `Virologist`: יכולה לבצע פעולת "טיפול במחלה", לא רק בעיר  שהיא נמצאת בה, אלא בכל עיר בעולם - ע"י השלכת קלף של אותה העיר.
-1. פורסת גנים - `GeneSplicer`: יכולה לבצע פעולת "גילוי תרופה" בעזרת 5 קלפים כלשהם - לא דווקא מהצבע של המחלה.
-1. רופא שטח - `FieldDoctor`: יכול לבצע פעולת "טיפול במחלה" לא רק בעיר שהוא נמצא בה אלא בכל עיר סמוכה לעיר שהוא נמצא בה (ע"פ מפת הקשרים), בלי להשליך קלף עיר.
-
-בשלב א עליכם לכתוב: 
-
-* קובץ כותרת הכולל את כל הפונקציות הדרושות (ללא מימוש). שימו לב: הכותרות צריכות להיות נכונות בהתאם למה שנלמד בהרצאות - מומלץ לחזור על החומר לפני שמתחילים לכתוב.
-* בדיקות מקיפות לכל הפונקציות הדרושות.
-   * אין צורך לבדוק את  אופרטור הפלט - כיוון שלא הגדרנו את הפורמט.
-   * אין צורך לבדוק מצבים לא חוקיים של פונקציית לקיחת הקלפים `take_card`.
-   * אין צורך לבדוק את הפונקציה `remove_cures`.
+# Pandemic Board Game  
   
-כיתבו את כל הקבצים הדרושים כך שהפקודות הבאות יעבדו ללא שגיאות:
+“To practice dealing with global epidemics, we need games” (Bill Gates, 2015). One of the games created to practice dealing with epidemics is Pandemic. This is a board game for 2 to 4 players, playing together to cure diseases and discover medicines.
 
+In this task some of the rules of the game are implemented, for only one player.
+
+## The Board  
+The game board is a map of the world, with 48 cities. Some of the cities are connected by a line that allows you to travel between them. You can see the list of cities and their connections in [this picture](https://media.wnyc.org/i/1500/900/c/80/1/1537_Pandemic_main.jpg). The cities are divided into four colors - blue, yellow, black and red - 12 cities of each color.
+  
+The list of cities, colors and contexts is also in the cities_map.txt file.  
+  
+In this task, the board is represented by the Board class.
+
+
+## The Cards  
+There are 48 cards - one card per city.
+
+The names of the cities in the code will be just like on the map, with no spaces. For example, the name of New York City is NewYork. Spelling must be observed to avoid compilation errors.  
+  
+## The Diseases
+There are diseases of four colors - blue, yellow, black and red. Each city may have "disease cubes" in a color appropriate to that city.
+
+In the "Board" department, the following methods must be implemented (see example files):  
+- Square bracket operator [] - accepts as city-ID parameter, and allows to read and update the level of disease (= number of disease cubes) in that city. For example: `board [City :: HongKong] = 2` places two red disease cubes in Hong Kong.
+- Output Operator - Displays the status of the board in any format of your choice. The board mode includes:
+	- The level of disease in each of the cities;
+	- The drugs discovered so far (see explanation below);
+	- Research stations built so far (see explanation below).
+- `is_clean`- Boolean method without parameters, which returns "true" if and only if the whole board is clean - there are no disease cubes.
+- `remove_cures` - a parameter-free method, which removes from the board all the drugs discovered so far (see explanation below). This method is intended for the purpose of writing tests; It never throws an exception, and there is no need to check it in a special way.
+  
+## The Player  
+The player starts the game in one of the cities, and receives a number of cards. In each turn, he can perform one of the following actions (see demo files):  
+  
+Drive -  `drive` - move from the current city to a nearby city (according to the context map).
+Direct flight - `fly_direct` - Transfer from the current city to the city of any card in his hand. To do this, throw the appropriate card to the city you are flying to.
+Franchise flight - `fly_charter` - transfer from the current city to any city. To do this, throw the appropriate card to the city you are in.
+Shuttle flight - `fly_shuttle` - If there is a research station in the current city, you can fly to any other city that has a research station.
+Build - `build` - build a research station in the city that is located in it. To do this, throw the appropriate card to the city you are in. 
+
+	*Each city can have at most one research station. If there is already a research station in the current city, and a "construction" operation is performed again, there is no need to throw an exception, and the card remains in the player's hands.
+Drug discovery - discover_cure - Drug discovery for a disease of a certain color. To do this, you must be in a city that has a research station, and throw 5 colored cards of the disease. The color of the city they are in does not matter.
+Each disease has one cure. If a cure for the disease has already been discovered, and a "cure discovery" for the same disease is performed again, there is no need to discard an exception, and the cards remain in the player's hands.
+
+Treat - Disease - lowering one disease cube from the city you are in (reducing the level of the disease by 1).
+If a cure for the disease has already been discovered in the color of the city, then the action of "cure the disease" removes all the disease cubes from the city that are in it (reducing the level of the disease to 0).
+If there is no infection at all in the city (the disease level is 0), then the action will throw an abnormality.
+Each action should update the board status and player position accordingly. If the operation is invalid, an appropriate exception must be thrown.
+
+In addition, the following methods were implemented:
+
+- `role` - a function that returns the role of the player (see list of roles below), for display.
+- `take_card` - take a city card. This simulates the process by which the player receives cards from the pot at the beginning or during the game.
+There is only one card of each city, so if you take a take_card operation on a card already in the player's possession, there will be no change in the player's position.
+There is no need to check the correctness of this method. In particular: there is no need to check that the card is still at the cash register, or that you do not give a card twice, etc. The method always succeeds.
+*Remarks:*
+
+There can be two or more players in the same city - nothing special happens in this situation.
+
+## Roles  
+
+There are different roles of players, who have special skills (the skills are similar but not the same as the original game):
+
+1.) OperationsExpert: Can perform a "construction" operation in any city he is in, without throwing a suitable city card.
+2.) Dispatcher: When he is at a research station, he can perform a "direct flight" operation to any city he wants, without throwing a city card.
+3.) Scientist: Can perform a "drug discovery" operation using only n cards (instead of 5), with the n parameter passed to the constructor (in the original game n = 4).
+4.) Researcher: Can perform a "drug discovery" operation in any city - does not have to be at a research station.
+5.Paramedic - Medic: When he performs a "disease treatment" operation, he removes all the disease cubes from the city he is in, and not just one.
+If a cure for the disease has already been discovered, it automatically lowers all the disease cubes from any city it is in, even without performing a "disease treatment" action.
+6.) Virologist: Can perform a "disease treatment" operation, not only in the city in which it is located, but in any city in the world - by throwing a card of that city.
+7.) GeneSplicer: Can perform a "drug discovery" operation with the help of 5 cards - not necessarily from the color of the disease.
+8.) Field Doctor - FieldDoctor: Can perform a "disease treatment" operation not only in the city he is in but in any city near the city he is in (according to the context map), without throwing a city card.
+  
+  
+  
+To run the demo files to see how it runs you can run:  
 <div dir='ltr'>
 
     make demo1 && ./demo1
@@ -116,7 +83,7 @@
 
 </div>
 
-מומלץ גם להריץ:
+In addition its possible to check extra remarks and memory leaks using:  
 
 <div dir='ltr'>
 
@@ -125,7 +92,6 @@
 
 </div>
 
-אין לשנות קבצים קיימים אלא רק להוסיף קבצים חדשים.
 
-בהצלחה
+Enjoy!
 </div>
