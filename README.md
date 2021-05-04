@@ -31,7 +31,7 @@ There are diseases of four colors:
   
 Each city may have "disease cubes" in a color appropriate to that city.
 
-In the "Board" department, the following methods must be implemented (see example files):  
+In the "Board" cpp file, the following methods were properly implemented:  
 - Square bracket operator [] - accepts as city-ID parameter, and allows to read and update the level of disease (= number of disease cubes) in that city. For example: `board [City :: HongKong] = 2` places two red disease cubes in Hong Kong.
 - Output Operator - Displays the status of the board in any format of your choice. The board mode includes:
 	- The level of disease in each of the cities;
