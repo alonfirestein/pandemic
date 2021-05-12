@@ -13,7 +13,7 @@ namespace pandemic {
 	        GeneSplicer(Board& b, City c):Player(b, c){} 
 	        GeneSplicer& discover_cure(Color disease);
 	        const std::string role() const {
-	        	return "Gene Splicer";
+	        	return "GeneSplicer";
 	        }
     };
 }

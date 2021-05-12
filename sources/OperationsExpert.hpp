@@ -13,7 +13,7 @@ namespace pandemic {
       	 	 OperationsExpert& build();
       	  
        	 const std::string role() const{
-       	     return "Operations Expert";
+       	     return "OperationsExpert";
         }
     };
 }

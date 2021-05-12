@@ -28,8 +28,7 @@ namespace pandemic{
 		
 	
 		int& operator[](City c);					// Changing the disease level in the input city	
-		const int operator[](City c) const;				// Returning the disease level of the input city
-		const bool is_clean() const; 					// True/False if the whole board is clean from diseases!
+		bool is_clean(); 					// True/False if the whole board is clean from diseases!
 		void remove_cures(); 						// Completely removes all the discovered diseases (Method only for testing!)
 		friend std::ostream& operator<<(std::ostream&, const Board&);	// Printing the board method
 		

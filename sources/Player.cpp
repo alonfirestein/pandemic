@@ -45,6 +45,11 @@ Player& Player::drive(City to)
 // Player flies directly to input city if he has the card
 Player& Player::fly_direct(City to) 
 {
+    if(city == to)
+    {
+        throw invalid_argument("ERROR: Can't fly from a city to itself!");
+
+    }
     if(cards_in_hand.contains(to))
     {
         cards_in_hand.erase(to);
@@ -60,6 +65,11 @@ Player& Player::fly_direct(City to)
 // Player flies charter to input city if he has the card (then throws the card away)
 Player& Player::fly_charter(City to) 
 {
+    if(city == to)
+    {
+        throw invalid_argument("ERROR: Can't fly from a city to itself!");
+
+    }
     if(cards_in_hand.contains(city))
     {
         cards_in_hand.erase(city);
@@ -74,7 +84,12 @@ Player& Player::fly_charter(City to)
 
 // Player flies shuttle to input city only if both cities have a research station
 Player& Player::fly_shuttle(City to) 
-{
+{    
+    if(city == to)
+    {
+        throw invalid_argument("ERROR: Can't fly from a city to itself!");
+
+    }
     if(b.has_station(city) && b.has_station(to)) 
     {
         city = to;
@@ -116,10 +131,7 @@ Player& Player::build() {
     if(cards_in_hand.contains(city))
     {
         cards_in_hand.erase(city);
-        if(!b.add_station(city))
-        {
-            throw invalid_argument("ERROR: There is already a research station in this city!");
-        }
+        b.add_station(city);
     }
     else
     {

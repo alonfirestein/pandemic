@@ -15,7 +15,7 @@ namespace pandemic {
         	FieldDoctor& treat(City);
         
         	const std::string role() const{
-    			return "Field Doctor";
+    			return "FieldDoctor";
 		}
     };
 }
